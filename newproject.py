@@ -1,12 +1,16 @@
 from pathlib import Path
 
-Path
+path = Path()
 
 folders: tuple = ("config", "data", "docs", "public", "scripts", "src", "tests", ".github")
 
 sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "integration", "lib", "style", "types", "unit", "infrastructure", "interfaces", "components", "ui", "layout", "utils", "features")
 
-projects: dict = {"Minimal / Script / Tiny CLI / Jupyter-heavy", "Frontend / React / Next.js / Vite", "Standard backend / full-stack"}
+projects: dict = {
+    "mini": "Minimal / Script / Tiny CLI / Jupyter-heavy",
+    "frontend": "Frontend / React / Next.js / Vite",
+    "backend": "Standard backend / full-stack"
+}
 
 
 def mini(name: String):
@@ -44,13 +48,14 @@ create = True
 def main():
     print("Hello! This is a simple script to establish the workspace for your next project.")
     while create is True:
-        x = input()
+        x: list = input()
+        print(x)
 
         match x:
             case _:
-                print("Please input a valid parameter following the next format:\n<project_name> <project_type>\n")
-                print("Here's a list of options for types of projects:")
-                print(f"{[v for v in projects]}")
+                print("\nPlease input a valid parameter following the next format:\n<project_name> <project_type>\n")
+                print("Here's a list of options for types of projects:\n")
+                [print(f"{k}: {v}") for k, v in projects.items()]
 
 
 
