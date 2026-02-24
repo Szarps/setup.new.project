@@ -22,8 +22,8 @@ def error() -> None:
         "format:\n<project name> <project type> (spaces are valid too!)\n"
     )
     print("Here's a list of options for types of projects:\n")
-    [print(f"{k}: {v}") for k, v in projects.items()]
-    print(f"\nReceived: {' '.join(argv)}\n")
+    [print(f"\"{k}\" for projects like:\n{v}\n") for k, v in projects.items()]
+    print(f"Received: {' '.join(argv)}\n")
     print("Failed to get valid input, exiting.")
     exit()
 
@@ -62,17 +62,20 @@ def main():
     if len(flags) < 3:
         error()
 
-    print(argv)
+    x = flags[(len(flags) - 1)]
 
-    match flags[(len(flags) - 1)]:
-        case "mini":
+    match x.lower():
+        case "mini" | "script":
             print("coincidio con mini")
+            # mini(argv)
 
-        case "frontend":
+        case "frontend" | "front":
             print("coincidio con frontend")
+            # frontend(argv)
 
-        case "backend":
+        case "backend" | "back" | "full":
             print("coincidio con backend")
+            # backend(argv)
 
         case _:
             error()
