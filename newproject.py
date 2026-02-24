@@ -58,10 +58,24 @@ def frontend(name: str):
 
 
 def main():
-    if len(argv) < 3:
+    flags: list = argv
+    if len(flags) < 3:
         error()
 
     print(argv)
+
+    match flags[(len(flags) - 1)]:
+        case "mini":
+            print("coincidio con mini")
+
+        case "frontend":
+            print("coincidio con frontend")
+
+        case "backend":
+            print("coincidio con backend")
+
+        case _:
+            error()
 
 
 if __name__ == '__main__':
