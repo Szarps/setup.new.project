@@ -16,7 +16,19 @@ projects: dict = {
 }
 
 
-def mini(name: String):
+def error() -> None:
+    print(
+        "\nPlease input a valid parameter following the next "
+        "format:\n<project name> <project type> (spaces are valid too!)\n"
+    )
+    print("Here's a list of options for types of projects:\n")
+    [print(f"{k}: {v}") for k, v in projects.items()]
+    print(f"\nReceived: {' '.join(argv)}\n")
+    print("Failed to get valid input, exiting.")
+    exit()
+
+
+def mini(name: str):
     print()
     # create folder for project passed by argument
     # create following folders
@@ -26,7 +38,7 @@ def mini(name: String):
     return print("Job done!")
 
 
-def backend(name: String):
+def backend(name: str):
     print()
     # create folder for project passed by argument
     # create following folders
@@ -36,7 +48,7 @@ def backend(name: String):
     #     tests -> e2e, integration, unit
 
 
-def frontend(name: String):
+def frontend(name: str):
     print()
     # folders
     # src, public, tests, docs, .github
@@ -46,26 +58,10 @@ def frontend(name: String):
 
 
 def main():
-    while True:
-        if len(argv) < 3:
-            print(
-                "\nPlease input a valid parameter following the next format:\n<project_name> <project_type>\n"
-            )
-            print("Here's a list of options for types of projects:\n")
-            [print(f"{k}: {v}") for k, v in projects.items()]
-            print(f"\nReceived: {str(argv)}\n")
-            print("Failed to get valid input, exiting.")
-            exit()
+    if len(argv) < 3:
+        error()
 
-        print(argv)
-
-
-
-
-
-
-
-        break
+    print(argv)
 
 
 if __name__ == '__main__':
