@@ -3,12 +3,18 @@
 from pathlib import Path
 from sys import argv
 
-path = Path()
+# shorthand command for defining starting route
+path = Path.cwd()
 
+# Careful touching this here, the functions rely on position
+# =================================================================================
 folders: tuple = ("config", "data", "docs", "public", "scripts", "src", "tests", ".github")
 
 sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "integration", "lib", "style", "types", "unit", "infrastructure", "interfaces", "components", "ui", "layout", "utils", "features")
+# =================================================================================
 
+# List of commands and their associated proyect type.
+# Serves only for helping the user.
 projects: dict = {
     "mini": "Minimal / Scripts / Tiny CLI / Jupyter-heavy",
     "frontend": "Frontend / React / Next.js / Vite",
@@ -16,6 +22,7 @@ projects: dict = {
 }
 
 
+# Handles invalid inputs
 def error() -> None:
     print(
         "\nPlease input a valid parameter following the next "
@@ -28,18 +35,38 @@ def error() -> None:
     exit()
 
 
+def proj_name(a: list) -> str:
+    a.pop()
+    a.pop(0)
+    b: str = " ".join(a)
+    return b
+
+
+# For projects of kind: "Minimal / Scripts / Tiny CLI / Jupyter-heavy"
 def mini(name: str):
-    print()
+    print(f"Creating folder structure for minimal / script / CLI / Jupyter project {name}")
     # create folder for project passed by argument
     # create following folders
     # data, docs, scripts, src, tests
     #    create following sub-folders
     #    features, utils
-    return print("Job done!")
 
 
+# For projects of kind: "Standard backend / Full-stack"
 def backend(name: str):
-    print()
+    print(f"Creating backend/fullstack folder structure for project named {name}")
+
+    # Definimos la ruta base (donde estás parado + nombre del proyecto)
+    base = path / name
+    print(f"{base.absolute()}")
+
+    # Definimos una subcarpeta (usando el operador / que pathlib entiende)
+    sub = base / "src", base / "assests"
+    print(f"{sub.absolute()}")
+
+    # Creamos todo de una
+    # sub.mkdir(parents=True, exist_ok=True)
+
     # create folder for project passed by argument
     # create following folders
     # src, tests, config, docs, scripts, .github
@@ -48,8 +75,9 @@ def backend(name: str):
     #     tests -> e2e, integration, unit
 
 
+# For projects of kind: "Frontend / React / Next.js / Vite",
 def frontend(name: str):
-    print()
+    print(f"Creating frontend folder structure for project {name}")
     # folders
     # src, public, tests, docs, .github
     #     sub_folders
@@ -65,20 +93,25 @@ def main():
     x = flags[(len(flags) - 1)]
 
     match x.lower():
-        case "mini" | "script":
+        case "mini" | "script" | "cli":
             print("coincidio con mini")
-            # mini(argv)
+            x = proj_name(flags)
+            mini(x)
 
-        case "frontend" | "front":
+        case "frontend" | "front" | "fe":
             print("coincidio con frontend")
-            # frontend(argv)
+            x = proj_name(flags)
+            frontend(x)
 
-        case "backend" | "back" | "full":
+        case "backend" | "back" | "full" | "fs":
             print("coincidio con backend")
-            # backend(argv)
+            x = proj_name(flags)
+            backend(x)
 
         case _:
             error()
+
+    print("Job done!")
 
 
 if __name__ == '__main__':
