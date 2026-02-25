@@ -8,9 +8,17 @@ path = Path.cwd()
 
 # Careful touching this here, the functions rely on position
 # =================================================================================
-folders: tuple = ("config", "data", "docs", "public", "scripts", "src", "tests", ".github")
+folders: tuple = ["config", "data", "docs", "public", "scripts", "src", "tests", ".github"]
+# 2/docs 3/public 4/scripts 5/src 6/tests
 
-sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "integration", "lib", "style", "types", "unit", "infrastructure", "interfaces", "components", "ui", "layout", "utils", "features")
+sub_folders: tuple = ["app", "application", "domain", "e2e", "hooks", "integration", "lib", "style", "types", "unit", "infrastructure", "interfaces", "components", "ui", "layout", "utils", "features"]  # 0..16
+
+front_end: list = [folders[2], folders[3], folders[5], folders[6]]
+
+full_stack: list = [folders[0], folders[2], folders[4], folders[5], folders[6]]
+
+scripts: list = [folders[1], folders[2], folders[4], folders[5], folders[6]]
+
 # =================================================================================
 
 # List of commands and their associated proyect type.
@@ -44,7 +52,8 @@ def proj_name(a: list) -> str:
 
 # For projects of kind: "Minimal / Scripts / Tiny CLI / Jupyter-heavy"
 def mini(name: str):
-    print(f"Creating folder structure for minimal / script / CLI / Jupyter project {name}")
+    print(f"Creating folder structure for minimal / script / CLI / Jupyter project {name}\n")
+    print(f"{front_end}")
     # create folder for project passed by argument
     # create following folders
     # data, docs, scripts, src, tests
@@ -54,21 +63,23 @@ def mini(name: str):
 
 # For projects of kind: "Standard backend / Full-stack"
 def backend(name: str):
-    print(f"Creating backend/fullstack folder structure for project named {name}")
+    print(f"Creating backend/fullstack folder structure for project named {name}\n")
 
     # Definimos la ruta base (donde estás parado + nombre del proyecto)
-    base = path / name
-    print(f"{base.absolute()}")
+    base = Path(name)
+    # print(f"{base} type {type(base)}")
+    base.mkdir()
+    # [print(f"{i}]") for i in Path.cwd().iterdir()]
 
     # Definimos una subcarpeta (usando el operador / que pathlib entiende)
-    sub = base / "src", base / "assests"
-    print(f"{sub.absolute()}")
+    # sub = base / "src" / "application", base / "src" / "domain" / "infrastructure" / "interfaces"
+    # print(f"{sub}")
 
     # Creamos todo de una
     # sub.mkdir(parents=True, exist_ok=True)
+    # [print(f"{i}\n") for i in sub.iterdir()]
 
     # create folder for project passed by argument
-    # create following folders
     # src, tests, config, docs, scripts, .github
     #     sub_folders
     #     src -> application, domain, infrastructure, interfaces
@@ -77,7 +88,7 @@ def backend(name: str):
 
 # For projects of kind: "Frontend / React / Next.js / Vite",
 def frontend(name: str):
-    print(f"Creating frontend folder structure for project {name}")
+    print(f"Creating frontend folder structure for project {name}\n")
     # folders
     # src, public, tests, docs, .github
     #     sub_folders
