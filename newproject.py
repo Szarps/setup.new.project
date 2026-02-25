@@ -3,34 +3,32 @@
 from pathlib import Path
 from sys import argv
 
-# shorthand command for defining starting route
-path = Path.cwd()
-
 # Careful touching this here, the functions rely on position
 # =================================================================================
-folders: tuple = ["config", "data", "docs", "public", "scripts", "src", "tests", ".github"]
+folders: tuple = ("config", "data", "docs", "public", "scripts", "src", "tests")
 # 2/docs 3/public 4/scripts 5/src 6/tests
 
-sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "infrastructure", "integration", "interfaces", "lib", "styles", "types", "unit", "components", "ui", "layout", "utils", "features")  # 0..16
+sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "infrastructure", "integration", "interfaces", "lib", "styles", "types", "unit", "components", "ui", "layout", "utils", "features")
+# 0..16
 
-front_end: list = [folders[2], folders[3], folders[5], folders[6]]
-front_sub: list = [sub_folders[0], sub_folders[12], sub_folders[8], sub_folders[4], sub_folders[9], sub_folders[10]]
-front_comp: list = [sub_folders[16], sub_folders[14], sub_folders[13]]
+front_end: tuple = (folders[2], folders[3], folders[5], folders[6])
+front_sub: tuple = (sub_folders[0], sub_folders[12], sub_folders[8], sub_folders[4], sub_folders[9], sub_folders[10])
+front_comp: tuple = (sub_folders[16], sub_folders[14], sub_folders[13])
 
-full_stack: list = [folders[0], folders[2], folders[4], folders[5], folders[6]]
-full_src: list = sub_folders[1], sub_folders[2], sub_folders[5], sub_folders[7]
-full_tests: list = sub_folders[3], sub_folders[6], sub_folders[11]
+full_stack: tuple = (folders[0], folders[2], folders[4], folders[5], folders[6])
+full_src: tuple = (sub_folders[1], sub_folders[2], sub_folders[5], sub_folders[7])
+full_tests: tuple = (sub_folders[3], sub_folders[6], sub_folders[11])
 
-scripts: list = [folders[1], folders[2], folders[4], folders[5], folders[6]]
-scripts_sub: list = sub_folders[15], sub_folders[16]
+scripts: tuple = (folders[1], folders[2], folders[4], folders[5], folders[6])
+scripts_sub: tuple = (sub_folders[15], sub_folders[16])
 # =================================================================================
 
 # List of commands and their associated proyect type.
 # Serves only for helping the user.
 projects: dict = {
-    "mini": "Minimal / Scripts / Tiny CLI / Jupyter-heavy",
-    "frontend": "Frontend / React / Next.js / Vite",
-    "backend": "Standard backend / Full-stack"
+    "mini, script, cli": "Minimal / Scripts / Tiny CLI / Jupyter-heavy",
+    "frontend, front, fe": "Frontend / React / Next.js / Vite",
+    "backend, back, full, fs": "Standard backend / Full-stack"
 }
 
 
@@ -47,37 +45,35 @@ def error() -> None:
     exit()
 
 
-def proj_name(a: list) -> str:
-    a.pop()
-    a.pop(0)
-    b: str = " ".join(a)
-    return b
-
-
 def create(name: str, proj: list) -> None:
     [Path(name, i).mkdir(parents=True, exist_ok=True) for i in proj]
-    [Path(name, "src", i).mkdir(parents=True, exist_ok=True) for i in proj]
+
+
+def create_sub(name: str, folder: str, proj_sub: list):
+    [Path(name, folder, i).mkdir(parents=True, exist_ok=True) for i in proj_sub]
 
 
 def mini(name: str) -> None:
     print(f"Creating minimal folder structure for script / CLI / Jupyter project '{name}'\n---------")
-    [Path(name, i).mkdir(parents=True, exist_ok=True) for i in scripts]
-    [Path(name, "src", i).mkdir(parents=True, exist_ok=True) for i in scripts_sub]
-
-    [print(f"{i}") for i in Path(name, "src").iterdir()]
+    create(name, scripts)
+    create_sub(name, "src", scripts_sub)
 
 
 def backend(name: str) -> None:
     print(f"Creating backend/fullstack folder structure for project '{name}'\n---------")
-
     create(name, full_stack)
+    create_sub(name, "src", full_src)
+    create_sub(name, "tests", full_tests)
 
 
 # For projects of kind: "Frontend / React / Next.js / Vite",
 def frontend(name: str) -> None:
     print(f"Creating frontend folder structure for project '{name}'\n---------")
+    create(name, front_end)
+    create_sub(name, "src", front_sub)
+    create_sub(name, "src/components", front_comp)
     # folders
-    # src, public, tests, docs, .github
+    # src, public, tests, docs
     #     sub_folders
     #     src -> app, components, lib, hooks, styles, types
     #     components -> ui, features, layout
@@ -92,15 +88,15 @@ def main() -> None:
 
     match x.lower():
         case "mini" | "script" | "cli":
-            x = proj_name(flags)
+            x = " ".join(argv[1:-1])
             mini(x)
 
         case "frontend" | "front" | "fe":
-            x = proj_name(flags)
+            x = " ".join(argv[1:-1])
             frontend(x)
 
         case "backend" | "back" | "full" | "fs":
-            x = proj_name(flags)
+            x = " ".join(argv[1:-1])
             backend(x)
 
         case _:
