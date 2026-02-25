@@ -3,23 +3,32 @@
 from pathlib import Path
 from sys import argv
 
-# Careful touching this here, the functions rely on position
+# Careful touching this here, the functions rely on position.
+# You can however add folders AT THE END according your needs though.
 # =================================================================================
+# Master list of directories
 folders: tuple = ("config", "data", "docs", "public", "scripts", "src", "tests")
-# 2/docs 3/public 4/scripts 5/src 6/tests
 
+# Subfolders list
 sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "infrastructure", "integration", "interfaces", "lib", "styles", "types", "unit", "components", "ui", "layout", "utils", "features")
-# 0..16
 
+# Structure Frontend: docs, public, src, tests
 front_end: tuple = (folders[2], folders[3], folders[5], folders[6])
+# Subfolders in src: app, components, lib, hooks, styles, types
 front_sub: tuple = (sub_folders[0], sub_folders[12], sub_folders[8], sub_folders[4], sub_folders[9], sub_folders[10])
+# Subfolders in components: features, layout, ui
 front_comp: tuple = (sub_folders[16], sub_folders[14], sub_folders[13])
 
+# Structure Backend/Fullstack: config, docs, scripts, src, tests
 full_stack: tuple = (folders[0], folders[2], folders[4], folders[5], folders[6])
+# Subfolders in src (Arquitectura Hexagonal/Limpia): application, domain, infrastructure, interfaces
 full_src: tuple = (sub_folders[1], sub_folders[2], sub_folders[5], sub_folders[7])
+# Subfolders in tests: e2e, integration, unit
 full_tests: tuple = (sub_folders[3], sub_folders[6], sub_folders[11])
 
+# Structure Scripts/Data: data, docs, scripts, src, tests
 scripts: tuple = (folders[1], folders[2], folders[4], folders[5], folders[6])
+# Subfolders in src: utils, features
 scripts_sub: tuple = (sub_folders[15], sub_folders[16])
 # =================================================================================
 
