@@ -23,7 +23,6 @@ full_tests: list = sub_folders[3], sub_folders[6], sub_folders[11]
 
 scripts: list = [folders[1], folders[2], folders[4], folders[5], folders[6]]
 scripts_sub: list = sub_folders[15], sub_folders[16]
-
 # =================================================================================
 
 # List of commands and their associated proyect type.
@@ -55,47 +54,28 @@ def proj_name(a: list) -> str:
     return b
 
 
-# For projects of kind: "Minimal / Scripts / Tiny CLI / Jupyter-heavy"
-def mini(name: str):
-    print(f"Creating folder structure for minimal / script / CLI / Jupyter project {name}\n")
-    # base = [print(Path(name) / i for i in scripts)]
-    print([Path(name) / i for i in scripts])
-    # sub.mkdir(parents=True, exist_ok=True)
-
-    # create following folders
-    # data, docs, scripts, src, tests
-    #    create following sub-folders
-    #    features, utils
+def create(name: str, proj: list) -> None:
+    [Path(name, i).mkdir(parents=True, exist_ok=True) for i in proj]
+    [Path(name, "src", i).mkdir(parents=True, exist_ok=True) for i in proj]
 
 
-# For projects of kind: "Standard backend / Full-stack"
-def backend(name: str):
-    print(f"Creating backend/fullstack folder structure for project named {name}\n")
+def mini(name: str) -> None:
+    print(f"Creating minimal folder structure for script / CLI / Jupyter project '{name}'\n---------")
+    [Path(name, i).mkdir(parents=True, exist_ok=True) for i in scripts]
+    [Path(name, "src", i).mkdir(parents=True, exist_ok=True) for i in scripts_sub]
 
-    # Definimos la ruta base (donde estás parado + nombre del proyecto)
-    base = Path(name)
-    # print(f"{base} type {type(base)}")
-    base.mkdir()
-    # [print(f"{i}]") for i in Path.cwd().iterdir()]
+    [print(f"{i}") for i in Path(name, "src").iterdir()]
 
-    # Definimos una subcarpeta (usando el operador / que pathlib entiende)
-    # sub = base / "src" / "application", base / "src" / "domain" / "infrastructure" / "interfaces"
-    # print(f"{sub}")
 
-    # Creamos todo de una
-    # sub.mkdir(parents=True, exist_ok=True)
-    # [print(f"{i}\n") for i in sub.iterdir()]
+def backend(name: str) -> None:
+    print(f"Creating backend/fullstack folder structure for project '{name}'\n---------")
 
-    # create folder for project passed by argument
-    # src, tests, config, docs, scripts, .github
-    #     sub_folders
-    #     src -> application, domain, infrastructure, interfaces
-    #     tests -> e2e, integration, unit
+    create(name, full_stack)
 
 
 # For projects of kind: "Frontend / React / Next.js / Vite",
-def frontend(name: str):
-    print(f"Creating frontend folder structure for project {name}\n")
+def frontend(name: str) -> None:
+    print(f"Creating frontend folder structure for project '{name}'\n---------")
     # folders
     # src, public, tests, docs, .github
     #     sub_folders
@@ -103,7 +83,7 @@ def frontend(name: str):
     #     components -> ui, features, layout
 
 
-def main():
+def main() -> None:
     flags: list = argv
     if len(flags) < 3:
         error()
@@ -112,17 +92,14 @@ def main():
 
     match x.lower():
         case "mini" | "script" | "cli":
-            print("coincidio con mini")
             x = proj_name(flags)
             mini(x)
 
         case "frontend" | "front" | "fe":
-            print("coincidio con frontend")
             x = proj_name(flags)
             frontend(x)
 
         case "backend" | "back" | "full" | "fs":
-            print("coincidio con backend")
             x = proj_name(flags)
             backend(x)
 
