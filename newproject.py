@@ -11,13 +11,18 @@ path = Path.cwd()
 folders: tuple = ["config", "data", "docs", "public", "scripts", "src", "tests", ".github"]
 # 2/docs 3/public 4/scripts 5/src 6/tests
 
-sub_folders: tuple = ["app", "application", "domain", "e2e", "hooks", "integration", "lib", "style", "types", "unit", "infrastructure", "interfaces", "components", "ui", "layout", "utils", "features"]  # 0..16
+sub_folders: tuple = ("app", "application", "domain", "e2e", "hooks", "infrastructure", "integration", "interfaces", "lib", "styles", "types", "unit", "components", "ui", "layout", "utils", "features")  # 0..16
 
 front_end: list = [folders[2], folders[3], folders[5], folders[6]]
+front_sub: list = [sub_folders[0], sub_folders[12], sub_folders[8], sub_folders[4], sub_folders[9], sub_folders[10]]
+front_comp: list = [sub_folders[16], sub_folders[14], sub_folders[13]]
 
 full_stack: list = [folders[0], folders[2], folders[4], folders[5], folders[6]]
+full_src: list = sub_folders[1], sub_folders[2], sub_folders[5], sub_folders[7]
+full_tests: list = sub_folders[3], sub_folders[6], sub_folders[11]
 
 scripts: list = [folders[1], folders[2], folders[4], folders[5], folders[6]]
+scripts_sub: list = sub_folders[15], sub_folders[16]
 
 # =================================================================================
 
@@ -53,8 +58,10 @@ def proj_name(a: list) -> str:
 # For projects of kind: "Minimal / Scripts / Tiny CLI / Jupyter-heavy"
 def mini(name: str):
     print(f"Creating folder structure for minimal / script / CLI / Jupyter project {name}\n")
-    print(f"{front_end}")
-    # create folder for project passed by argument
+    # base = [print(Path(name) / i for i in scripts)]
+    print([Path(name) / i for i in scripts])
+    # sub.mkdir(parents=True, exist_ok=True)
+
     # create following folders
     # data, docs, scripts, src, tests
     #    create following sub-folders
