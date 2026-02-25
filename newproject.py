@@ -49,7 +49,7 @@ def create(name: str, proj: list) -> None:
     [Path(name, i).mkdir(parents=True, exist_ok=True) for i in proj]
 
 
-def create_sub(name: str, folder: str, proj_sub: list):
+def create_sub(name: str, folder: str, proj_sub: list) -> None:
     [Path(name, folder, i).mkdir(parents=True, exist_ok=True) for i in proj_sub]
 
 
@@ -72,11 +72,6 @@ def frontend(name: str) -> None:
     create(name, front_end)
     create_sub(name, "src", front_sub)
     create_sub(name, "src/components", front_comp)
-    # folders
-    # src, public, tests, docs
-    #     sub_folders
-    #     src -> app, components, lib, hooks, styles, types
-    #     components -> ui, features, layout
 
 
 def main() -> None:
