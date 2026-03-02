@@ -35,9 +35,9 @@ scripts_sub: tuple = (sub_folders[15], sub_folders[16])
 # List of commands and their associated proyect type.
 # Serves only for helping the user.
 projects: dict = {
-    "mini, script, cli": "Minimal / Scripts / Tiny CLI / Jupyter-heavy",
-    "frontend, front, fe": "Frontend / React / Next.js / Vite",
-    "backend, back, full, fs": "Standard backend / Full-stack"
+    "1, mini, script, cli": "Minimal / Scripts / Tiny CLI / Jupyter-heavy",
+    "2, frontend, front, fe": "Frontend / React / Next.js / Vite",
+    "3, backend, back, full, fs": "Standard backend / Full-stack"
 }
 
 
@@ -91,15 +91,15 @@ def main() -> None:
     x = flags[(len(flags) - 1)]
 
     match x.lower():
-        case "mini" | "script" | "cli":
+        case "1" | "mini" | "script" | "cli":
             x = " ".join(argv[1:-1])
             mini(x)
 
-        case "frontend" | "front" | "fe":
+        case "2" | "frontend" | "front" | "fe":
             x = " ".join(argv[1:-1])
             frontend(x)
 
-        case "backend" | "back" | "full" | "fs":
+        case "3" | "backend" | "back" | "full" | "fs":
             x = " ".join(argv[1:-1])
             backend(x)
 
